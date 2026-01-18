@@ -12,10 +12,21 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        return "admin";
+        /* return "admin"; */
         $users = User::count();
         $plans = Plan::count();
         $subscriptions = Subscription::count();
-        return view('admin.dashboard', compact('users','plans','subscriptions'));
+        /* return view('admin.dashboard', compact('users','plans','subscriptions')); */
+
+       
+            return inertia('admin/dashboard', [
+                'stats' => [
+                    'users' => User::count(),
+                    'subscriptions' => Subscription::count(),
+                    'plans' => Plan::count(),
+                ]
+            ]);
+       
+
     }
 }

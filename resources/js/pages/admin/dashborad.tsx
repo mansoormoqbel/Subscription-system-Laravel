@@ -1,11 +1,11 @@
 import { Head } from '@inertiajs/react';
 import AdminSidebarLayout from '@/layouts/admin/admin-sidebar-layout';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import { adminDashboard } from '@/routes';
+import { adminDashboard } from '@/routes/admin';
 import { type BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: adminDashboard().url },
+    { title: 'Admin Dashboard', href: adminDashboard().url },
 ];
 
 export default function AdminDashboard() {
