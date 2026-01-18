@@ -1,18 +1,4 @@
-/* import { type ReactNode } from 'react';
 
-import AdminLayoutTemplate from '@/layouts/app/admin-sidebar-layout';
-import { type BreadcrumbItem } from '@/types';
-
-interface AdminLayoutProps {
-    children: ReactNode;
-    breadcrumbs?: BreadcrumbItem[];
-}
-
-export default ({ children, breadcrumbs, ...props }: AdminLayoutProps) => (
-    <AdminLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
-        {children}
-    </AdminLayoutTemplate>
-); */
 /******************************************************************************** */
 import { type PropsWithChildren } from 'react';
 import { AppShell } from '@/components/app-shell';
