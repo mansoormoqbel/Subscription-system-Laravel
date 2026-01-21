@@ -1,0 +1,87 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\SubscriptionController;
+use App\Http\Controllers\Admin\PaymentController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
+// --------------------
+// Public / Auth Routes
+// --------------------
+Route::get('/', function () {
+    return Inertia::render('Welcome'); // الصفحة الرئيسية
+})->name('home');
+
+// Auth routes
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// --------------------
+// User Routes (Authenticated)
+// --------------------
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard', [
+            'stats' => [
+                'users' => \App\Models\User::count(),
+                'subscriptions' => \App\Models\Subscription::count(),
+                'plans' => \App\Models\Plan::count(),
+            ]
+        ]);
+    })->name('dashboard');
+});
+
+// --------------------
+// Admin Routes (Middleware: auth + admin)
+// --------------------
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    // Users
+    Route::get('/users', [UserController::class, 'users'])->name('admin.users');
+    Route::get('/users/create', [UserController::class, 'create'])->name('admin.users.create');
+    Route::post('/users', [UserController::class, 'store'])->name('admin.users.store');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+
+    // Plans
+    Route::get('/plans', [PlanController::class, 'index'])->name('admin.plans');
+
+    // Subscriptions
+    Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('admin.subscriptions');
+
+    // Payments
+    Route::get('/payments', [PaymentController::class, 'index'])->name('admin.payments');
+
+});
+
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/plans', [SubscriptionController::class, 'getPlan'])
+        ->name('plans.index');
+
+    Route::post('/subscribe', [SubscriptionController::class, 'subscribe'])
+        ->name('subscribe');
+
+    Route::get('/my-subscription', [SubscriptionController::class, 'current'])
+        ->name('subscription.current');
+
+    Route::post('/subscription/{subscription}/cancel', [SubscriptionController::class, 'cancel'])
+        ->name('subscription.cancel');
+});

@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid,FileText } from 'lucide-react';
 
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -14,6 +14,8 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+
+import userRoutes from '@/routes/user';
 import { type NavItem } from '@/types';
 
 import AppLogo from './app-logo';
@@ -24,10 +26,21 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'Plan',
+        href: userRoutes.plans(),
+        icon: FileText,
+    },
+    {
+        title: 'my-subscription',
+        href: userRoutes.current(),
+        icon: FileText,
+    },
+    
 ];
 
 const footerNavItems: NavItem[] = [
-    {
+    /* {
         title: 'Repository',
         href: 'https://github.com/laravel/react-starter-kit',
         icon: Folder,
@@ -36,7 +49,7 @@ const footerNavItems: NavItem[] = [
         title: 'Documentation',
         href: 'https://laravel.com/docs/starter-kits#react',
         icon: BookOpen,
-    },
+    }, */
 ];
 
 export function AppSidebar() {

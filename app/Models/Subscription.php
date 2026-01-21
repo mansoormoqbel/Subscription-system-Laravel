@@ -16,6 +16,15 @@ class Subscription extends Model
         'status',
         'auto_renew',
     ];
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'auto_renew' => 'boolean',
+    ];
+
+    
+
+   
     public function user()
     {
         return $this->belongsTo(User::class,'user_id');

@@ -1,18 +1,18 @@
 import { Link } from '@inertiajs/react';
 import { LayoutGrid, FileText, CreditCard, Users } from 'lucide-react';
 import { Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { adminDashboard, adminPlans, adminSubscriptions, adminUsers, adminPayments } from '@/routes/admin';
+import  admin  from '@/routes/admin';
 import AppLogo from './app-logo';
 import { NavMain } from '@/components/nav-main';
 import { NavFooter } from '@/components/nav-footer';
 import { NavUser } from '@/components/nav-user';
 
 const mainNavItems = [
-    { title: 'Dashboard', href: adminDashboard().url, icon: LayoutGrid },
-    { title: 'Plans', href: adminPlans().url, icon: FileText },
-    { title: 'Subscriptions', href: adminSubscriptions().url, icon: CreditCard },
-    { title: 'Users', href: adminUsers().url, icon: Users },
-    { title: 'Payments', href: adminPayments().url, icon: CreditCard },
+    { title: 'Dashboard', href: admin.dashboard().url, icon: LayoutGrid },
+    { title: 'Plans', href: admin.plans().url, icon: FileText },
+    { title: 'Subscriptions', href: admin.dashboard().url, icon: CreditCard },
+    { title: 'Users', href: admin.users().url, icon: Users },
+    { title: 'Payments', href: admin.dashboard().url, icon: CreditCard },
 ];
 
 const footerNavItems = [
@@ -26,7 +26,7 @@ export function AdminSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={adminDashboard().url}>
+                            <Link href={admin.dashboard().url}>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

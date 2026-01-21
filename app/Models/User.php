@@ -52,7 +52,13 @@ class User extends Authenticatable
     }
     public function subscriptions()
     {
-        return $this->hasMany(Subscription::class);
+        return $this->hasMany(Subscription::class,'user_id');
+    }
+    public function activeSubscription()
+    {
+        return $this->hasOne(Subscription::class,'user_id')
+            ->where('status', 'active')
+            ->whereDate('end_date', '>=', now());
     }
     public function isAdmin()
     {
