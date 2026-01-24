@@ -8,10 +8,8 @@ use App\Models\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-/* getplan
-namespace App\Http\Controllers\SubscriptionController;
+use App\Models\Payment;
 
-*/
 
 class SubscriptionController extends Controller
 {
@@ -24,6 +22,15 @@ class SubscriptionController extends Controller
                 'plans1' => $plans,   
             ]);
     }
+
+    /*  $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete(); 
+            $table->foreignId('plan_id')->constrained()->cascadeOnDelete(); 
+            $table->date('start_date'); 
+            $table->date('end_date'); 
+            $table->enum('status', ['active', 'expired', 'canceled', 'suspended']); 
+            $table->boolean('auto_renew')->default(false); 
+            $table->timestamps(); */
     // اشتراك المستخدم
     public function subscribe(Request $request)
     {   
@@ -36,17 +43,44 @@ class SubscriptionController extends Controller
         // إلغاء أي اشتراك نشط سابق
         $user->subscriptions()->where('status', 'active')->update(['status' => 'canceled']);
         // إنشاء الاشتراك الجديد
-        Subscription::create([
+        $subscription = Subscription::create([
             'user_id' => $user->id,
             'plan_id' => $plan->id,
             'start_date' => now(),
             'end_date' => now()->addDays($plan->duration_days),
-            'status' => 'active',
+            'status' => 'suspended',
             'auto_renew' => $request->auto_renew ?? false,
         ]);
+        //return  $subscription;
+        // إنشاء Payment pending
+        Payment::create([
+            'subscription_id' => $subscription->id,
+            'amount' => $plan->price,
+            'payment_method' => 'stripe',
+            'payment_status' => 'pending',
+        ]);
+        /* return inertia('payments/redirect', [
+            'subscriptionId' => $subscription->id,
+        ]); */
 
-        return redirect()->route('user.current')->with('success', 'Subscription activated successfully');
+        return redirect()->route('payment.checkout', $subscription->id);
+        
     }
+
+    /* 
+        Schema::create('payments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('subscription_id')->constrained()->cascadeOnDelete(); 
+            $table->decimal('amount', 8, 2); 
+            $table->string('payment_method'); 
+            $table->enum('payment_status', ['paid', 'failed', 'pending']); 
+            $table->string('transaction_id')->nullable(); 
+            $table->dateTime('payment_date')->nullable();
+            $table->timestamps();
+        });
+     */
+    
+
 
     // الاشتراك الحالي
     public function current()

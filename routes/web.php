@@ -6,6 +6,7 @@ use Laravel\Fortify\Features;
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\PaymentController;
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\planController;
@@ -19,13 +20,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+    //start plan
     Route::get('user/plans', [SubscriptionController::class, 'getplan'])->name('user.plans');
+    //end plan
+
+    //start subscribe
     Route::post('user/subscribe', [SubscriptionController::class, 'subscribe'])->name('user.subscribe');
     Route::get('/my-subscription', [SubscriptionController::class, 'current'])->name('user.current');
     Route::post('user/{subscription}/cancel', [SubscriptionController::class, 'cancel'])->name('user.cancel');
-    
+    //end  subscribe
+
+    /************************* */
+    //      start  payment     //
+    /************************* */
+    //payment.checkout
+    Route::get('/payments/checkout/{subscription}', [PaymentController::class, 'checkout'])->name('payment.checkout');
+    Route::get('/payments/success/{payment}', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('/payments/failed/{payment}', [PaymentController::class, 'failed'])->name('payment.failed');
+    /************************* */
+    //      end  payment       //
+    /************************* */
+
 });
- Route::prefix('admin')->middleware(['auth', 'verified' ,AdminMiddleware::class])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'verified' ,AdminMiddleware::class])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     /* start user */ 
         Route::get('/users', [UserController::class, 'index'])->name('admin.users');
