@@ -13,6 +13,7 @@ use App\Models\Payment;
 
 class SubscriptionController extends Controller
 {
+    
     // عرض الخطط
     public function getplan()  {
         $plans =Plan::Where('is_active',true)
@@ -23,14 +24,7 @@ class SubscriptionController extends Controller
             ]);
     }
 
-    /*  $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete(); 
-            $table->foreignId('plan_id')->constrained()->cascadeOnDelete(); 
-            $table->date('start_date'); 
-            $table->date('end_date'); 
-            $table->enum('status', ['active', 'expired', 'canceled', 'suspended']); 
-            $table->boolean('auto_renew')->default(false); 
-            $table->timestamps(); */
+    
     // اشتراك المستخدم
     public function subscribe(Request $request)
     {   
@@ -51,34 +45,21 @@ class SubscriptionController extends Controller
             'status' => 'suspended',
             'auto_renew' => $request->auto_renew ?? false,
         ]);
-        //return  $subscription;
-        // إنشاء Payment pending
+        
+        // Create Payment pending
         Payment::create([
             'subscription_id' => $subscription->id,
             'amount' => $plan->price,
             'payment_method' => 'stripe',
             'payment_status' => 'pending',
         ]);
-        /* return inertia('payments/redirect', [
-            'subscriptionId' => $subscription->id,
-        ]); */
+        
 
         return redirect()->route('payment.checkout', $subscription->id);
         
     }
 
-    /* 
-        Schema::create('payments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('subscription_id')->constrained()->cascadeOnDelete(); 
-            $table->decimal('amount', 8, 2); 
-            $table->string('payment_method'); 
-            $table->enum('payment_status', ['paid', 'failed', 'pending']); 
-            $table->string('transaction_id')->nullable(); 
-            $table->dateTime('payment_date')->nullable();
-            $table->timestamps();
-        });
-     */
+   
     
 
 

@@ -10,7 +10,7 @@ import { NavUser } from '@/components/nav-user';
 const mainNavItems = [
     { title: 'Dashboard', href: admin.dashboard().url, icon: LayoutGrid },
     { title: 'Plans', href: admin.plans().url, icon: FileText },
-    { title: 'Subscriptions', href: admin.dashboard().url, icon: CreditCard },
+    { title: 'Subscriptions', href: admin.subscribe.getsub().url, icon: CreditCard },
     { title: 'Users', href: admin.users().url, icon: Users },
     { title: 'Payments', href: admin.dashboard().url, icon: CreditCard },
 ];

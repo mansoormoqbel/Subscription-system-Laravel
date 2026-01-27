@@ -68,7 +68,7 @@ export default function AdminUsers() {
                         {plans.length === 0 && (
                             <tr>
                                 <td colSpan={5} className="p-4 text-center text-gray-500">
-                                    No users found
+                                    No plans found
                                 </td>
                             </tr>
                         )}

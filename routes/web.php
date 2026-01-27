@@ -10,6 +10,7 @@ use App\Http\Controllers\PaymentController;
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\planController;
+use App\Http\Controllers\Admin\SubscriptionAController;
 Route::get('/', function () {
     return Inertia::render('welcome', [
         'canRegister' => Features::enabled(Features::registration()),
@@ -25,18 +26,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //end plan
 
     //start subscribe
-    Route::post('user/subscribe', [SubscriptionController::class, 'subscribe'])->name('user.subscribe');
-    Route::get('/my-subscription', [SubscriptionController::class, 'current'])->name('user.current');
-    Route::post('user/{subscription}/cancel', [SubscriptionController::class, 'cancel'])->name('user.cancel');
+        Route::post('user/subscribe', [SubscriptionController::class, 'subscribe'])->name('user.subscribe');
+        Route::get('/my-subscription', [SubscriptionController::class, 'current'])->name('user.current');
+        Route::post('user/{subscription}/cancel', [SubscriptionController::class, 'cancel'])->name('user.cancel');
     //end  subscribe
 
     /************************* */
     //      start  payment     //
     /************************* */
-    //payment.checkout
-    Route::get('/payments/checkout/{subscription}', [PaymentController::class, 'checkout'])->name('payment.checkout');
-    Route::get('/payments/success/{payment}', [PaymentController::class, 'success'])->name('payment.success');
-    Route::get('/payments/failed/{payment}', [PaymentController::class, 'failed'])->name('payment.failed');
+        //payment.checkout
+        Route::get('/payments/checkout/{subscription}', [PaymentController::class, 'checkout'])->name('payment.checkout');
+        Route::get('/payments/success/{payment}', [PaymentController::class, 'success'])->name('payment.success');
+        Route::get('/payments/failed/{payment}', [PaymentController::class, 'failed'])->name('payment.failed');
     /************************* */
     //      end  payment       //
     /************************* */
@@ -52,14 +53,18 @@ Route::prefix('admin')->middleware(['auth', 'verified' ,AdminMiddleware::class])
         Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
     /* end user */ 
-    
+    /* start plans  */
         Route::get('/plans', [planController::class, 'index'])->name('admin.plans');
         Route::get('/plans/create', [planController::class, 'create'])->name('admin.plans.create');
         Route::post('/plans/store', [planController::class, 'store'])->name('admin.plans.store');
         Route::get('/plans/{plan}/edit', [planController::class, 'edit'])->name('admin.plans.edit');
         Route::put('/plans/{plan}', [planController::class, 'update'])->name('admin.plans.update');
         Route::delete('/plans/{plan}', [planController::class, 'destroy'])->name('admin.plans.destroy');
-    
+    /* end plans */
+
+    /* start subscribe */
+        Route::get('/getsub', [SubscriptionAController::class, 'getsub'])->name('admin.subscribe.getsub');
+    /* end subscribe */
     
 }); //AdminMiddleware::class 
 require __DIR__.'/settings.php';

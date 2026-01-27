@@ -52,3 +52,4 @@ export interface Plan {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
