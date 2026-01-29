@@ -64,6 +64,15 @@ Route::prefix('admin')->middleware(['auth', 'verified' ,AdminMiddleware::class])
 
     /* start subscribe */
         Route::get('/getsub', [SubscriptionAController::class, 'getsub'])->name('admin.subscribe.getsub');
+        Route::post('/subscriptions/{id}/toggle-status', [SubscriptionAController::class, 'toggleStatus'])
+            ->name('admin.subscribe.toggleStatus');
+
+        Route::post('/subscriptions/{id}/cancel', [SubscriptionAController::class, 'cancel'])
+            ->name('admin.subscribe.cancel');
+
+        Route::get('/subscriptions/{id}/edit', [SubscriptionAController::class, 'edit'])
+            ->name('admin.subscribe.edit');
+    
     /* end subscribe */
     
 }); //AdminMiddleware::class 

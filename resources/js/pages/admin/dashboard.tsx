@@ -13,12 +13,25 @@ type Stats = {
     users: number;
     subscriptions: number;
     plans: number;
+    active: number;
+    expired: number;
+    canceled: number;
+    mostPopularPlan: string;
+    thisMonth: number;
 };
-
-function StatCard({ title, value }: { title: string; value: number }) {
+/* function StatCard({ title, value, color }: { title: string; value: string | number; color: string }) {
     return (
-        <div className="rounded-xl border p-6 shadow-sm">
-            <h3 className="text-sm text-gray-500">{title}</h3>
+        <div className={`rounded-lg shadow p-4 text-white ${color}`}>
+            <p className="text-sm">{title}</p>
+            <p className="text-2xl font-bold">{value}</p>
+        </div>
+    );
+} */
+
+function StatCard({ title, value ,color}: { title: string; value: string | number; color: string  }) {
+    return (
+        <div className={`rounded-xl border p-6 shadow-sm ${color}`}>
+            <h3 className="text-sm ">{title}</h3>
             <p className="text-3xl font-bold">{value}</p>
         </div>
     );
@@ -31,19 +44,19 @@ export default function AdminDashboard() {
         <AdminSidebarLayout breadcrumbs={breadcrumbs}>
             <Head title="Admin Dashboard" />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
-                <StatCard title="Users" value={stats.users} />
-                <StatCard title="Subscriptions" value={stats.subscriptions} />
-                <StatCard title="Plans" value={stats.plans} />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4" >
+                <StatCard title="Users" value={stats.users} color="bg-blue-500"/>
+                <StatCard title="Subscriptions" value={stats.subscriptions}  color="bg-blue-500"/>
+                <StatCard title="Plans" value={stats.plans} color="bg-blue-500"/>
+                <StatCard title="Active" value={stats.active} color="bg-green-500" />
+                <StatCard title="Expired" value={stats.expired} color="bg-yellow-500" />
+                <StatCard title="Canceled" value={stats.canceled} color="bg-red-500" />
+                <StatCard title="Most Popular Plan" value={stats.mostPopularPlan} color="bg-purple-500" />
+                <StatCard title="Subscriptions This Month" value={stats.thisMonth} color="bg-indigo-500" />
+
             </div>
 
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border">
-                        <PlaceholderPattern className="absolute inset-0 size-full" />
-                    </div>
-                </div>
-            </div>
+            
         </AdminSidebarLayout>
     );
 }
