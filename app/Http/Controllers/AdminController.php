@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Payment;
 use App\Models\Plan;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ class AdminController extends Controller
     {
         $users = User::count();
         $plans = Plan::count();
+        $payments = Payment::count();
         $subscriptions = Subscription::count();
         
 
@@ -26,7 +28,7 @@ class AdminController extends Controller
         $mostPopularPlan = Subscription::select('plan_id')
             ->groupBy('plan_id')
             ->orderByRaw('COUNT(*) DESC')
-            ->with('plan') // assuming relationship exists
+            ->with('plan') 
             ->first();
 
         $subscriptionsThisMonth = Subscription::whereMonth('start_date', now()->month)
@@ -39,6 +41,7 @@ class AdminController extends Controller
                 'users' => $users,
                 'subscriptions' =>$subscriptions ,
                 'plans' =>$plans,
+                'payments'=>$payments,
                 'active' => $active,
                 'expired' => $expired,
                 'canceled' => $canceled,

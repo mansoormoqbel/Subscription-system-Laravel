@@ -10,6 +10,7 @@ use App\Http\Controllers\PaymentController;
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\planController;
+use App\Http\Controllers\Admin\Payment1Controller;
 use App\Http\Controllers\Admin\SubscriptionAController;
 Route::get('/', function () {
     return Inertia::render('welcome', [
@@ -61,6 +62,11 @@ Route::prefix('admin')->middleware(['auth', 'verified' ,AdminMiddleware::class])
         Route::put('/plans/{plan}', [planController::class, 'update'])->name('admin.plans.update');
         Route::delete('/plans/{plan}', [planController::class, 'destroy'])->name('admin.plans.destroy');
     /* end plans */
+
+    /*start payment */
+    Route::get('/pay', [Payment1Controller::class, 'index'])->name('admin.payment.pay');
+
+    /* end payment */
 
     /* start subscribe */
         Route::get('/getsub', [SubscriptionAController::class, 'getsub'])->name('admin.subscribe.getsub');

@@ -18,6 +18,7 @@ type Stats = {
     canceled: number;
     mostPopularPlan: string;
     thisMonth: number;
+    payments:number;
 };
 /* function StatCard({ title, value, color }: { title: string; value: string | number; color: string }) {
     return (
@@ -47,6 +48,7 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4" >
                 <StatCard title="Users" value={stats.users} color="bg-blue-500"/>
                 <StatCard title="Subscriptions" value={stats.subscriptions}  color="bg-blue-500"/>
+                <StatCard title="payment" value={stats.payments}  color="bg-blue-500"/>
                 <StatCard title="Plans" value={stats.plans} color="bg-blue-500"/>
                 <StatCard title="Active" value={stats.active} color="bg-green-500" />
                 <StatCard title="Expired" value={stats.expired} color="bg-yellow-500" />

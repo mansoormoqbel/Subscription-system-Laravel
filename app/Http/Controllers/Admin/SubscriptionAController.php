@@ -44,7 +44,7 @@ class SubscriptionAController extends Controller
             $query->whereDate('end_date', '<=', $request->dateTo);
         }
 
-        // جلب النتائج
+        
         $subscriptions = $query->orderBy('id', 'desc')->get();
         return inertia('admin/subscription', [
                 'subscriptions'=>$subscriptions,
@@ -60,7 +60,7 @@ class SubscriptionAController extends Controller
         $subscription->status = $subscription->status === 'active' ? 'suspended' : 'active';
         $subscription->save();
 
-        // نرسل البيانات للـ frontend عبر Inertia
+        
         return Inertia::render('admin/subscription', [
             'updatedSubscription' => [
                 'id' => $subscription->id,
@@ -76,13 +76,13 @@ class SubscriptionAController extends Controller
         $subscription = Subscription::findOrFail($id);
         $subscription->status = 'canceled';
         $subscription->save();
-        //$subscription->delete();
+        
         return Inertia::render('admin/subscription', [
             'subscriptions' => Subscription::with('user','plan')->get(),
         ]);
     }
 
-    // Edit (يرجع بيانات الاشتراك للصفحة Edit)
+    
     public function edit($id)
     {
         $subscription = Subscription::with(['user','plan'])->findOrFail($id);

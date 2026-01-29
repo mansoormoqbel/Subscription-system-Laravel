@@ -216,13 +216,7 @@ export default function AdminSubscriptions() {
                                         </button>
                                     )}
 
-                                    {/* <button
-                                        type="button"
-                                        onClick={() => goToEditPage(sub.id)}
-                                        className="bg-blue-600 text-white px-2 py-1 rounded"
-                                    >
-                                        Edit
-                                    </button> */}
+                                    
                                 </td>
                             </tr>
                         ))}
